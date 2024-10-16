@@ -41,7 +41,7 @@ export default function TodoList() {
     }
 
     checkAuth()
-  }, [])
+  }, [router])
 
   const fetchTodos = async () => {
     try {
@@ -56,7 +56,7 @@ export default function TodoList() {
       const data = await response.json()
       setTodos(data.data || [])
     } catch (err) {
-      console.log("Failed to fetch todos")
+      console.log("Failed to fetch todos", err)
     } finally {
       setIsLoading(false)
     }
@@ -89,7 +89,7 @@ export default function TodoList() {
       setTodos([...todos, data.data])
       setNewTodo("")
     } catch (err) {
-      setError("Failed to add todo")
+      setError(`Failed to add todo ${err}`)
     }
   }
 
@@ -117,7 +117,7 @@ export default function TodoList() {
         )
       )
     } catch (err) {
-      setError("Failed to update todo")
+      setError(`Failed to add todo ${err}`)
     }
   }
 
@@ -141,7 +141,7 @@ export default function TodoList() {
 
       setTodos(todos.filter((todo) => todo._id !== id))
     } catch (err) {
-      setError("Failed to delete todo")
+      setError(`Failed to add todo ${err}`)
     }
   }
 
@@ -158,7 +158,7 @@ export default function TodoList() {
         throw new Error("Logout failed")
       }
     } catch (err) {
-      setError("Logout failed")
+      setError(`Failed logout ${err}`)
     }
   }
 

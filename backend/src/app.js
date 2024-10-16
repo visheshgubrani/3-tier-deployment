@@ -7,7 +7,7 @@ import todoRouter from "./routes/todo.routes.js"
 const app = express()
 app.use(
   cors({
-    origin: "http://localhost:3000", // Your frontend URL
+    origin: "http://localhost:3000",
     credentials: true,
   })
 )
