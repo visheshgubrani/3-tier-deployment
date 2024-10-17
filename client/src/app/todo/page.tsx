@@ -12,7 +12,7 @@ type Todo = {
   isCompleted: boolean
 }
 
-const API_BASE_URL = "http://localhost:4080/todos"
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/todos`
 
 export default function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([])
@@ -147,10 +147,13 @@ export default function TodoList() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:4080/users/logout", {
-        method: "POST",
-        credentials: "include",
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      )
 
       if (response.ok) {
         router.push("/login?message=You have been logged out")

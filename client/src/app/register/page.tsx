@@ -23,13 +23,16 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("http://localhost:4080/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, email, password }),
+        }
+      )
 
       const data = await response.json()
 

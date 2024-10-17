@@ -22,14 +22,17 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("http://localhost:4080/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-        credentials: "include", // This is crucial for including cookies
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+          credentials: "include", // This is crucial for including cookies
+        }
+      )
 
       const data = await response.json()
 
