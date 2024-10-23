@@ -22,4 +22,4 @@ spec:
             - containerPort: 3000
           env:
             - name: NEXT_PUBLIC_API_URL
-              value: "http://backend-service:4080"
+              value: "https://thetodolist.site/api"

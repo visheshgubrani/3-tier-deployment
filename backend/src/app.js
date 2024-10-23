@@ -11,12 +11,16 @@ app.use(
     credentials: true,
   })
 )
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"))
 app.use(cookieParser())
 
 // Routes
-app.use("/users", userRouter)
-app.use("/todos", todoRouter)
+app.use("/api/users", userRouter)
+app.use("/api/todos", todoRouter)
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" })
+})
 export default app
