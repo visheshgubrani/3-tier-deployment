@@ -32,7 +32,7 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t ${{ secrets.ECR_FRONTEND_URI }}:$IMAGE_TAG ./frontend
+          docker build -t ${{ secrets.ECR_FRONTEND_URI }}:$IMAGE_TAG ./client
           docker push ${{ secrets.ECR_FRONTEND_URI }}:$IMAGE_TAG
 
       - name: Build and push backend image
