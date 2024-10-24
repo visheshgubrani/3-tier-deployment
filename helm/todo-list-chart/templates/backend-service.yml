@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: mern-app
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 4080
+      targetPort: 4080
+  type: ClusterIP # Exposes the service Internally

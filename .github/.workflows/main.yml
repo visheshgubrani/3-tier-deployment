@@ -1,0 +1,56 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  AWS_REGION: ap-south-1
+  EKS_CLUSTER_NAME: mern-app
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push frontend image
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t ${{ secrets.ECR_FRONTEND_URI }}:$IMAGE_TAG ./frontend
+          docker push ${{ secrets.ECR_FRONTEND_URI }}:$IMAGE_TAG
+
+      - name: Build and push backend image
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t ${{ secrets.ECR_BACKEND_URI }}:$IMAGE_TAG ./backend
+          docker push ${{ secrets.ECR_BACKEND_URI }}:$IMAGE_TAG
+
+      - name: Update Helm values
+        run: |
+          yq e '.frontend.image.tag = "${{ github.sha }}"' -i ./helm/values.yaml
+          yq e '.backend.image.tag = "${{ github.sha }}"' -i ./helm/values.yaml
+
+      - name: Commit and push updated Helm values
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add ./helm/values.yaml
+          git commit -m "Update image tags to ${{ github.sha }}"
+          git push
