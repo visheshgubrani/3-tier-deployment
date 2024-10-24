@@ -44,13 +44,13 @@ jobs:
 
       - name: Update Helm values
         run: |
-          yq e '.frontend.image.tag = "${{ github.sha }}"' -i ./helm/values.yaml
-          yq e '.backend.image.tag = "${{ github.sha }}"' -i ./helm/values.yaml
+          yq e '.frontend.image.tag = "${{ github.sha }}"' -i ./helm/todo-list-chart/values.yaml
+          yq e '.backend.image.tag = "${{ github.sha }}"' -i ./helm/todo-list-chart/values.yaml
 
       - name: Commit and push updated Helm values
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
-          git add ./helm/values.yaml
+          git add ./helm/todo-list-chart/values.yaml
           git commit -m "Update image tags to ${{ github.sha }}"
           git push
