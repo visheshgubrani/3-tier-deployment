@@ -2,14 +2,14 @@ frontend:
   replicas: 2
   image:
     repository: 533267410454.dkr.ecr.ap-south-1.amazonaws.com/frontend
-    tag: 80762168643ee3e142848877122f616511611ece
+    tag: da8b6e935a89865eef2b5fe943264c315ce3cbc1
   env:
     NODE_ENV: "https://thetodolist.site/api"
 backend:
   replicas: 2
   image:
     repository: 533267410454.dkr.ecr.ap-south-1.amazonaws.com/backend
-    tag: 80762168643ee3e142848877122f616511611ece
+    tag: da8b6e935a89865eef2b5fe943264c315ce3cbc1
   env:
     NODE_ENV: "production"
 ingress:
